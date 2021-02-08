@@ -2,20 +2,21 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js";
 
 const app = express();
+dotenv.config();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 //Connect mongoose with local mongodb
-const CONNECTION_URL = "mongodb://127.0.0.1:27017/memories";
 const PORT = process.env.PORT || 5000;
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -26,6 +27,10 @@ mongoose
   .catch((error) => console.log(error.message));
 
 mongoose.set("useFindAndModify", false);
+
+app.get("/", (req, res) => {
+  res.send("Hello to Memories API.");
+});
 
 //Routes
 app.use("/posts", postRoutes);
