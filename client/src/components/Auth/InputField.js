@@ -24,15 +24,17 @@ export const InputField = ({
         autoFocus={autoFocus}
         type={type}
         InputProps={
-          name === "password" && {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleShowPassword}>
-                  {type === "password" ? <Visibity /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }
+          name === "password"
+            ? {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword}>
+                      {type === "password" ? <Visibity /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }
+            : null
         }
       />
     </Grid>
