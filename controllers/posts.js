@@ -1,3 +1,4 @@
+import { json } from "body-parser";
 import mongoose from "mongoose";
 
 import PostMessage from "../models/postMessage.js";
@@ -58,16 +59,27 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  //below line is checking for user is authenticated or not
+  if (!req.userId) return res.json({ message: "Unauthenticated!." });
+
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(401).send("No post with that id.");
 
   const post = await PostMessage.findById(id);
 
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  );
+  //Each User can like the post only once
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+  if (index === -1) {
+    //like the post
+    post.likes.push(req.userId);
+  } else {
+    //dislike the post
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
