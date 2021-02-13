@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.header.authorition.split(" ")[1];
-    const customAuth = token.length > 500;
+    const token = req.headers.authorization.split(" ")[1];
+    const customAuth = token.length < 500;
 
     let decodedData;
 
