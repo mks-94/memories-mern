@@ -25,6 +25,16 @@ const Form = ({ currentId, setCurrentId }) => {
     if (post) setPostData(post);
   }, [post]);
 
+  const clear = () => {
+    setCurrentId(0);
+    setPostData({
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,16 +47,6 @@ const Form = ({ currentId, setCurrentId }) => {
       );
       clear();
     }
-  };
-
-  const clear = () => {
-    setCurrentId(0);
-    setPostData({
-      title: "",
-      message: "",
-      tags: "",
-      selectedFile: "",
-    });
   };
 
   if (!user?.result?.name) {
