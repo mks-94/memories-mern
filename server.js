@@ -17,7 +17,7 @@ app.use(cors());
 //Connect mongoose with local mongodb
 const PORT = process.env.PORT || 5000;
 mongoose
-  .connect(process.env.CONNECTION_URL, {
+  .connect("mongodb://127.0.0.1:27017/memories", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
